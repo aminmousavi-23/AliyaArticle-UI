@@ -47,7 +47,13 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
     }
     const reader = new FileReader()
     reader.onload = () => {
-      updateBlock(key, { base64File: reader.result as string, imageName: file.name })
+      const dataUrl = reader.result as string
+
+      updateBlock(key, {
+        base64File: dataUrl.split(',')[1],
+        contentType: file.type,
+        imageName: file.name,
+      })
     }
     reader.onerror = () => showToast('امکان خواندن تصویر وجود نداشت. لطفاً فایل دیگری را امتحان کنید.', 'error')
     reader.readAsDataURL(file)
@@ -120,7 +126,7 @@ function BlockItem({ block, isFirst, isLast, onTextChange, onFile, onRemove, onM
             />
         ) : block.base64File ? (
             <div>
-              <img className="block__image-preview" src={block.base64File} alt={block.imageName ?? 'تصویر بارگذاری‌شده'} />
+              <img className="block__image-preview" src={`data:image/*;base64,${block.base64File}`} alt={block.imageName ?? 'تصویر بارگذاری‌شده'} />
               <div style={{ textAlign: 'center', marginTop: 'var(--space-3)' }}>
                 <button type="button" className="btn btn--ghost btn--sm" onClick={() => fileInputRef.current?.click()}>
                   تغییر تصویر

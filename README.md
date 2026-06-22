@@ -67,7 +67,7 @@ Specifically, this app assumes:
 - Article filtering relies on the dynamic `FilterDto`/`FilterItemDto` system
   supporting filters on field names like `isPublished`, `title` (Contains),
   `categoryId` (Equals), `tagIds` (Contains — i.e. "array contains this id"),
-  and `authorId` (Equals, used by "My articles"). If your backend's dynamic
+  and `createdBy` (Equals, used by "My articles"). If your backend's dynamic
   filter only supports certain fields, adjust the `buildFilter(...)` calls in
   `src/pages/HomePage.tsx` and `src/pages/MyArticlesPage.tsx`.
 - **`GET /api/attachment/{id}`** serves the raw image file directly (so an

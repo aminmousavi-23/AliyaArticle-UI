@@ -92,13 +92,6 @@ export function buildPageMeta(totalCount: number, pageNumber: number, pageSize: 
 // Article
 // ---------------------------------------------------------------------------
 
-export interface CreateArticleBlockDto {
-  type: BlockType_Enum
-  text?: string | null
-  base64File?: string | null
-  order: number
-}
-
 export interface CreateArticleCommand {
   title: string
   summary: string
@@ -107,21 +100,35 @@ export interface CreateArticleCommand {
   blocks: CreateArticleBlockDto[]
 }
 
+export interface CreateArticleBlockDto {
+  type: BlockType_Enum
+  text?: string | null
+  base64File?: string | null
+  order: number
+}
+
 export type GetArticlePaginatedQuery = PaginatedQuery
 
 // ASSUMPTION: shapes returned inside BaseResponse<T>.data / CollectionResponse.data
+
+export interface ArticleDto {
+  id: string
+  title: string
+  summary: string
+  isPublished: boolean
+  category: ArticleCategoryDto
+  tags: ArticleTagDto[]
+  blocks: ArticleBlockDto[]
+  createdAt: string
+  createdBy: string
+}
+
 export interface ArticleBlockDto {
   id: string
   type: BlockType_Enum
   text?: string | null
   attachmentId?: string | null
   order: number
-}
-
-export interface ArticleAuthorDto {
-  id: string
-  username: string
-  fullName: string
 }
 
 export interface ArticleCategoryDto {
@@ -133,21 +140,6 @@ export interface ArticleTagDto {
   id: string
   name: string
 }
-
-export interface ArticleDto {
-  id: string
-  title: string
-  summary: string
-  isPublished: boolean
-  createdAt: string
-  publishedAt?: string | null
-  author: ArticleAuthorDto
-  category: ArticleCategoryDto
-  tags: ArticleTagDto[]
-  blocks: ArticleBlockDto[]
-  commentCount?: number
-}
-
 // ---------------------------------------------------------------------------
 // Auth / User
 // ---------------------------------------------------------------------------

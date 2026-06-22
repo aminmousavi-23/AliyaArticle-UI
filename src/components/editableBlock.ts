@@ -9,6 +9,7 @@ export interface EditableBlock {
   text: string
   base64File: string | null
   imageName: string | null
+  contentType?: string
 }
 
 export function newTextBlock(): EditableBlock {

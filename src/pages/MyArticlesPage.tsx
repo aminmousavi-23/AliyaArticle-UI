@@ -32,7 +32,7 @@ export function MyArticlesPage() {
             isAnd: true,
             orderBy: 'createdAt',
             isAscending: false,
-            items: [{ field: 'authorId', operation: FilterOperation_Enum.Equal, value: user.id }],
+            items: [{ field: 'createdBy', operation: FilterOperation_Enum.Equal, value: user.id }],
           },
         })
         .then((r) => setArticles(r.data ?? []))

@@ -25,23 +25,22 @@ export function decodeJwt<T = Record<string, unknown>>(token: string): T | null 
  * claims. This pulls a user id and username out regardless of which
  * convention the backend uses.
  */
-export function getClaimsFromToken(token: string): { userId: string | null; username: string | null } {
+export function getClaimsFromToken(token: string) {
   const payload = decodeJwt<Record<string, unknown>>(token)
-  if (!payload) return { userId: null, username: null }
 
-  const userId =
-    (payload['sub'] as string | undefined) ??
-    (payload['nameid'] as string | undefined) ??
-    (payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string | undefined) ??
-    null
+  if (!payload) {
+    return {
+      userId: null,
+      username: null,
+      role: null,
+    }
+  }
 
-  const username =
-    (payload['username'] as string | undefined) ??
-    (payload['unique_name'] as string | undefined) ??
-    (payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] as string | undefined) ??
-    null
-
-  return { userId, username }
+  return {
+    userId: payload['user_id'] as string | null,
+    username: payload['username'] as string | null,
+    role: payload['role'] as string | null,
+  }
 }
 
 export function isTokenExpired(token: string): boolean {

@@ -16,7 +16,7 @@ export function ArticleCard({ article }: { article: ArticleDto }) {
           <div className="meta">
             {/*<span>{article.author.fullName || article.author.username}</span>*/}
             <span className="meta__dot" />
-            <span>{formatRelativeTime(article.publishedAt ?? article.createdAt)}</span>
+            <span>{formatRelativeTime(article.createdAt)}</span>
             {!article.isPublished && (
                 <>
                   <span className="meta__dot" />

@@ -36,7 +36,6 @@ export function LoginPage() {
         <div className="container">
           <div className="card card--padded auth-card">
             <h1>ورود</h1>
-            <p className="auth-card__sub">خوش برگشتید به آلیا آرتیکل.</p>
 
             {error && <div className="alert alert--error">{error}</div>}
 

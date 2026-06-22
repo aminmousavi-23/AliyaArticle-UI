@@ -112,7 +112,7 @@ export function ArticlePage() {
   const wordCount = article.blocks
       .filter((b) => b.type === BlockType_Enum.Paragraph)
       .reduce((sum, b) => sum + countWords(b.text ?? ''), 0)
-  const isOwner = isAuthenticated && user?.id === article.author.id
+  const isOwner = isAuthenticated && user?.id === article.createdBy
 
   return (
       <div className="page">
@@ -140,7 +140,7 @@ export function ArticlePage() {
                     {/*{article.author.fullName || article.author.username}*/}
                   </div>
                   <div className="meta">
-                    <span>{formatDate(article.publishedAt ?? article.createdAt)}</span>
+                    <span>{formatDate(article.createdAt)}</span>
                     <span className="meta__dot" />
                     <span>{estimateReadTime(wordCount)}</span>
                     {!article.isPublished && (
