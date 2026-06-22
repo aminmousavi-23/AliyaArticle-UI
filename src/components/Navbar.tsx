@@ -60,14 +60,16 @@ export function Navbar() {
           <div className="nav__right">
             {isAuthenticated ? (
                 <>
+                  {user?.isAdmin && (
                   <NavLink to="/write" className="btn btn--accent btn--sm">
                     نوشتن
                   </NavLink>
+                  )}
                   <div className="nav__user">
                 <span className="nav__avatar" aria-hidden="true">
                   {initials(user?.fullName || user?.username || '?')}
                 </span>
-                    <span>{user?.username}</span>
+                    <span>{user?.fullName}</span>
                   </div>
                   <button className="btn btn--ghost btn--sm" onClick={handleLogout}>
                     خروج

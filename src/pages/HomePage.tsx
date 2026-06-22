@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { articleApi } from '@/api/articles'
 import { categoryApi } from '@/api/categories'
-import { tagApi } from '@/api/tags'
 import { ArticleCard } from '@/components/ArticleCard'
 import { EmptyState } from '@/components/EmptyState'
 import { Pagination } from '@/components/Pagination'
@@ -15,7 +14,6 @@ import {
   type ArticleDto,
   type CategoryDto,
   type PageMeta,
-  type TagDto,
 } from '@/types/api'
 import {FilterOperation_Enum} from "@/enums/FilterOperation_Enum.ts";
 
@@ -33,7 +31,6 @@ export function HomePage() {
   const [articles, setArticles] = useState<ArticleDto[]>([])
   const [pageMeta, setPageMeta] = useState<PageMeta | null>(null)
   const [categories, setCategories] = useState<CategoryDto[]>([])
-  const [tags, setTags] = useState<TagDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -41,10 +38,6 @@ export function HomePage() {
         .search({ pageNumber: 1, pageSize: 50 })
         .then((r) => setCategories(r.data ?? []))
         .catch(() => setCategories([]))
-    tagApi
-        .search({ pageNumber: 1, pageSize: 50 })
-        .then((r) => setTags(r.data ?? []))
-        .catch(() => setTags([]))
   }, [])
 
   useEffect(() => {
@@ -56,9 +49,8 @@ export function HomePage() {
           { field: 'isPublished', operation: FilterOperation_Enum.Equal, value: true },
           { field: 'title', operation: FilterOperation_Enum.Contains, value: q || undefined },
           { field: 'categoryId', operation: FilterOperation_Enum.Equal, value: categoryId || undefined },
-          { field: 'tagIds', operation: FilterOperation_Enum.Contains, value: tagId || undefined },
         ],
-        { orderBy: 'publishedAt', isAscending: false },
+        { orderBy: 'createdAt', isAscending: false },
     )
 
     articleApi
@@ -120,20 +112,6 @@ export function HomePage() {
                           onClick={() => updateParam('category', c.id)}
                       >
                         {c.name}
-                      </button>
-                  ))}
-                </div>
-              </div>
-              <div className="filter-rail__group">
-                <h4>برچسب‌ها</h4>
-                <div className="filter-rail__chips">
-                  {tags.map((t) => (
-                      <button
-                          key={t.id}
-                          className={`chip chip--button${tagId === t.id ? ' chip--selected' : ''}`}
-                          onClick={() => updateParam('tag', tagId === t.id ? '' : t.id)}
-                      >
-                        #{t.name}
                       </button>
                   ))}
                 </div>

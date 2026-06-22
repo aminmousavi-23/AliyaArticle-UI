@@ -30,6 +30,7 @@ async function loadUserFromToken(accessToken: string): Promise<UserDto | null> {
       fullName: username ?? 'کاربر نامشخص',
       email: null,
       phoneNumber: null,
+      isAdmin: false
     }
   }
 }

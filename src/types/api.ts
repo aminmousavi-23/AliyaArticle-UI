@@ -178,6 +178,7 @@ export interface UserDto {
   fullName: string
   email?: string | null
   phoneNumber?: string | null
+  isAdmin: boolean
 }
 
 // ---------------------------------------------------------------------------
