@@ -75,11 +75,8 @@ export function Navbar() {
                 </>
             ) : (
                 <>
-                  <NavLink to="/login" className="btn btn--ghost btn--sm">
+                  <NavLink to="/login" className="btn btn--primary btn--sm">
                     ورود
-                  </NavLink>
-                  <NavLink to="/register" className="btn btn--primary btn--sm">
-                    ثبت‌نام
                   </NavLink>
                 </>
             )}

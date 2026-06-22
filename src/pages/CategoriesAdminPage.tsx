@@ -71,7 +71,7 @@ export function CategoriesAdminPage() {
             </div>
           </div>
 
-          {isAuthenticated ? (
+          {isAuthenticated && (
               <form
                   className="card card--padded"
                   onSubmit={handleCreate}
@@ -87,10 +87,6 @@ export function CategoriesAdminPage() {
                   {isCreating ? 'در حال افزودن…' : 'افزودن'}
                 </button>
               </form>
-          ) : (
-              <div className="alert alert--info" style={{ marginBottom: 'var(--space-5)' }}>
-                <Link to="/login">وارد شوید</Link> تا بتوانید دسته‌بندی اضافه یا حذف کنید.
-              </div>
           )}
 
           {isLoading ? (

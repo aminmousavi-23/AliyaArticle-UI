@@ -11,13 +11,13 @@ import { useToast } from '@/context/ToastContext'
 import { buildFilter } from '@/lib/filter'
 import { getApiErrorMessage } from '@/lib/apiClient'
 import {
-  FilterOperation,
   buildPageMeta,
   type ArticleDto,
   type CategoryDto,
   type PageMeta,
   type TagDto,
 } from '@/types/api'
+import {FilterOperation_Enum} from "@/enums/FilterOperation_Enum.ts";
 
 const PAGE_SIZE = 9
 
@@ -53,10 +53,10 @@ export function HomePage() {
 
     const filter = buildFilter(
         [
-          { field: 'isPublished', operation: FilterOperation.Equals, value: true },
-          { field: 'title', operation: FilterOperation.Contains, value: q || undefined },
-          { field: 'categoryId', operation: FilterOperation.Equals, value: categoryId || undefined },
-          { field: 'tagIds', operation: FilterOperation.Contains, value: tagId || undefined },
+          { field: 'isPublished', operation: FilterOperation_Enum.Equal, value: true },
+          { field: 'title', operation: FilterOperation_Enum.Contains, value: q || undefined },
+          { field: 'categoryId', operation: FilterOperation_Enum.Equal, value: categoryId || undefined },
+          { field: 'tagIds', operation: FilterOperation_Enum.Contains, value: tagId || undefined },
         ],
         { orderBy: 'publishedAt', isAscending: false },
     )

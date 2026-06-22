@@ -8,7 +8,8 @@ import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import { getApiErrorMessage } from '@/lib/apiClient'
 import { formatDate } from '@/lib/format'
-import { FilterOperation, type ArticleDto } from '@/types/api'
+import { type ArticleDto } from '@/types/api'
+import { FilterOperation_Enum} from "@/enums/FilterOperation_Enum.ts";
 
 export function MyArticlesPage() {
   const { user } = useAuth()
@@ -31,7 +32,7 @@ export function MyArticlesPage() {
             isAnd: true,
             orderBy: 'createdAt',
             isAscending: false,
-            items: [{ field: 'authorId', operation: FilterOperation.Equals, value: user.id }],
+            items: [{ field: 'authorId', operation: FilterOperation_Enum.Equal, value: user.id }],
           },
         })
         .then((r) => setArticles(r.data ?? []))

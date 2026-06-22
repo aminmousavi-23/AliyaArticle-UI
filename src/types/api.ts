@@ -9,6 +9,7 @@
  * exact. Response shapes for "Data" fields are ASSUMPTIONS documented inline.
  */
 import type {BlockType_Enum} from "@/enums/BlockType_Enum.ts";
+import {FilterOperation_Enum} from "@/enums/FilterOperation_Enum.ts";
 
 // ---------------------------------------------------------------------------
 // Envelope types (server-defined)
@@ -42,24 +43,10 @@ export interface CollectionResponse<T> extends Omit<BaseResponse<T[]>, 'data'> {
 // Shared / pagination
 // ---------------------------------------------------------------------------
 
-/** Mirrors FilterOperation (declared as a bare integer in the spec). */
-export const FilterOperation = {
-  Equals: 0,
-  NotEquals: 1,
-  GreaterThan: 2,
-  GreaterThanOrEqual: 3,
-  LessThan: 4,
-  LessThanOrEqual: 5,
-  Contains: 6,
-  StartsWith: 7,
-  EndsWith: 8,
-} as const
-export type FilterOperation = (typeof FilterOperation)[keyof typeof FilterOperation]
-
 export interface FilterItemDto {
   field: string
   value: unknown
-  operation: FilterOperation
+  operation: FilterOperation_Enum
 }
 
 export interface FilterDto {
