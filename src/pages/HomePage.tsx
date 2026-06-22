@@ -99,7 +99,6 @@ export function HomePage() {
           <div className="page-header">
             <div>
               <h1>{q ? `نتایج برای "${q}"` : 'جدیدترین مقالات'}</h1>
-              <p>نوشته‌های همه کاربران در Marginalia، از جدید به قدیم.</p>
             </div>
           </div>
 

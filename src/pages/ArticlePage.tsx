@@ -11,7 +11,8 @@ import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import { getApiErrorMessage } from '@/lib/apiClient'
 import { countWords, estimateReadTime, formatDate} from '@/lib/format'
-import { BlockType, type ArticleDto, type CommentDto } from '@/types/api'
+import { type ArticleDto, type CommentDto } from '@/types/api'
+import {BlockType_Enum} from "@/enums/BlockType_Enum.ts";
 
 export function ArticlePage() {
   const { id } = useParams<{ id: string }>()
@@ -109,7 +110,7 @@ export function ArticlePage() {
   }
 
   const wordCount = article.blocks
-      .filter((b) => b.type === BlockType.Text)
+      .filter((b) => b.type === BlockType_Enum.Paragraph)
       .reduce((sum, b) => sum + countWords(b.text ?? ''), 0)
   const isOwner = isAuthenticated && user?.id === article.author.id
 

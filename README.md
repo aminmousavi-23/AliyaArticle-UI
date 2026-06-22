@@ -1,4 +1,4 @@
-# Marginalia
+# AliyaArticle
 
 A simple Medium-style article app — write, publish, and read articles, organized
 by category and tags, with comments. Built in React + TypeScript against the
@@ -120,7 +120,7 @@ No CSS framework — a small custom design system driven by CSS variables in
 and bylines/timestamps/tags use IBM Plex Mono for an editorial, slightly
 typewritten feel. The one recurring signature element is the colored "spine"
 on each article card and the vertical tag rail in the margin of the reading
-view — both nod to the idea of marginalia and library shelving, and the
+view — both nod to the idea of AliyaArticle and library shelving, and the
 spine color is derived deterministically from the category id so the same
 category always reads the same color without needing to store one.
 

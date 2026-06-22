@@ -1,5 +1,5 @@
-const ACCESS_TOKEN_KEY = 'marginalia.accessToken'
-const REFRESH_TOKEN_KEY = 'marginalia.refreshToken'
+const ACCESS_TOKEN_KEY = 'AliyaArticle.accessToken'
+const REFRESH_TOKEN_KEY = 'AliyaArticle.refreshToken'
 
 type Listener = () => void
 const listeners = new Set<Listener>()

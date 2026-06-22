@@ -7,7 +7,8 @@ import { BlockEditor } from '@/components/BlockEditor'
 import { type EditableBlock, newTextBlock } from '@/components/editableBlock'
 import { useToast } from '@/context/ToastContext'
 import { getApiErrorMessage } from '@/lib/apiClient'
-import { BlockType, type CategoryDto, type CreateArticleBlockDto, type TagDto } from '@/types/api'
+import { type CategoryDto, type CreateArticleBlockDto, type TagDto } from '@/types/api'
+import {BlockType_Enum} from "@/enums/BlockType_Enum.ts";
 
 export function WriteArticlePage() {
   const navigate = useNavigate()
@@ -43,7 +44,8 @@ export function WriteArticlePage() {
     if (!summary.trim()) return 'یک خلاصه کوتاه اضافه کنید.'
     if (!categoryId) return 'یک دسته‌بندی انتخاب کنید.'
     const hasContent = blocks.some(
-        (b) => (b.type === BlockType.Text && b.text.trim()) || (b.type === BlockType.Image && b.base64File),
+        (b) => (b.type === BlockType_Enum.Paragraph && b.text.trim()) ||
+            (b.type === BlockType_Enum.Attachment && b.base64File),
     )
     if (!hasContent) return 'حداقل یک بلوک محتوا اضافه کنید.'
     return null
@@ -59,11 +61,11 @@ export function WriteArticlePage() {
     setIsSaving(publishAfter ? 'publish' : 'draft')
     try {
       const payloadBlocks: CreateArticleBlockDto[] = blocks
-          .filter((b) => (b.type === BlockType.Text && b.text.trim()) || (b.type === BlockType.Image && b.base64File))
+          .filter((b) => (b.type === BlockType_Enum.Paragraph && b.text.trim()) || (b.type === BlockType_Enum.Attachment && b.base64File))
           .map((b, index) => ({
             type: b.type,
-            text: b.type === BlockType.Text ? b.text.trim() : b.text.trim() || null,
-            base64File: b.type === BlockType.Image ? b.base64File : null,
+            text: b.type === BlockType_Enum.Paragraph ? b.text.trim() : b.text.trim() || null,
+            base64File: b.type === BlockType_Enum.Attachment ? b.base64File : null,
             order: index,
           }))
 

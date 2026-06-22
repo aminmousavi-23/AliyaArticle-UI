@@ -1,7 +1,7 @@
 import { useRef } from 'react'
-import { BlockType } from '@/types/api'
 import { type EditableBlock, newImageBlock, newTextBlock } from './editableBlock'
 import { useToast } from '@/context/ToastContext'
+import {BlockType_Enum} from "@/enums/BlockType_Enum.ts";
 
 interface BlockEditorProps {
   blocks: EditableBlock[]
@@ -98,7 +98,7 @@ function BlockItem({ block, isFirst, isLast, onTextChange, onFile, onRemove, onM
   return (
       <div className="block">
         <div className="block__toolbar">
-          <span className="block__kind">{block.type === BlockType.Text ? 'متن' : 'تصویر'}</span>
+          <span className="block__kind">{block.type === BlockType_Enum.Paragraph ? 'متن' : 'تصویر'}</span>
           <span className="block__spacer" />
           <button type="button" className="btn btn--ghost btn--icon" onClick={onMoveUp} disabled={isFirst} aria-label="انتقال بلوک به بالا">
             ↑
@@ -111,7 +111,7 @@ function BlockItem({ block, isFirst, isLast, onTextChange, onFile, onRemove, onM
           </button>
         </div>
 
-        {block.type === BlockType.Text ? (
+        {block.type === BlockType_Enum.Paragraph ? (
             <textarea
                 className="block__text"
                 placeholder="یک پاراگراف بنویسید..."

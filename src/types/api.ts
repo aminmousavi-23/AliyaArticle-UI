@@ -8,6 +8,7 @@
  * Request command/query shapes below are taken directly from v1.json and are
  * exact. Response shapes for "Data" fields are ASSUMPTIONS documented inline.
  */
+import type {BlockType_Enum} from "@/enums/BlockType_Enum.ts";
 
 // ---------------------------------------------------------------------------
 // Envelope types (server-defined)
@@ -104,15 +105,8 @@ export function buildPageMeta(totalCount: number, pageNumber: number, pageSize: 
 // Article
 // ---------------------------------------------------------------------------
 
-/** Mirrors BlockType (declared as a bare integer in the spec). ASSUMPTION: 0/1. */
-export const BlockType = {
-  Text: 0,
-  Image: 1,
-} as const
-export type BlockType = (typeof BlockType)[keyof typeof BlockType]
-
 export interface CreateArticleBlockDto {
-  type: BlockType
+  type: BlockType_Enum
   text?: string | null
   base64File?: string | null
   order: number
@@ -131,7 +125,7 @@ export type GetArticlePaginatedQuery = PaginatedQuery
 // ASSUMPTION: shapes returned inside BaseResponse<T>.data / CollectionResponse.data
 export interface ArticleBlockDto {
   id: string
-  type: BlockType
+  type: BlockType_Enum
   text?: string | null
   attachmentId?: string | null
   order: number

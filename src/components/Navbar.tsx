@@ -26,7 +26,7 @@ export function Navbar() {
         <div className="container nav__row">
           <NavLink to="/" className="nav__brand">
             <span className="nav__brand-mark" aria-hidden="true" />
-            مارجینالیا
+            آلیا آرتیکل
           </NavLink>
 
           <nav className="nav__links">

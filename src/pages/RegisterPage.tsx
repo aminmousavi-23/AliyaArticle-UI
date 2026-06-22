@@ -36,7 +36,7 @@ export function RegisterPage() {
     setIsSubmitting(true)
     try {
       await register({ ...form, email: form.email || null })
-      showToast('حساب کاربری ایجاد شد. به Marginalia خوش آمدید.', 'success')
+      showToast('حساب کاربری ایجاد شد. به آلیا آرتیکل خوش آمدید.', 'success')
       navigate('/')
     } catch (err) {
       setError(getApiErrorMessage(err))
@@ -50,7 +50,7 @@ export function RegisterPage() {
         <div className="container">
           <div className="card card--padded auth-card">
             <h1>ایجاد حساب کاربری</h1>
-            <p className="auth-card__sub">به Marginalia بپیوندید تا مقاله بنویسید و منتشر کنید.</p>
+            <p className="auth-card__sub">به آلیا آرتیکل بپیوندید تا مقاله بنویسید و منتشر کنید.</p>
 
             {error && <div className="alert alert--error">{error}</div>}
 
