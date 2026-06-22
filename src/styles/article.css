@@ -1,0 +1,292 @@
+/* --- Article card (homepage / listings) --- */
+
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+}
+
+.article-card {
+  position: relative;
+  display: flex;
+  background: var(--color-paper-raised);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.article-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-raised);
+}
+
+/* The "spine" — a colored bar coded to the article's category, like a
+   library shelf. This is the app's one recurring signature element. */
+.article-card__spine {
+  width: 6px;
+  flex-shrink: 0;
+}
+
+.article-card__body {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.article-card__category {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-faint);
+}
+
+.article-card__title {
+  font-size: var(--text-xl);
+  margin-bottom: 0;
+}
+
+.article-card__title a {
+  color: var(--color-ink);
+}
+.article-card__title a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.article-card__summary {
+  color: var(--color-ink-soft);
+  font-size: var(--text-sm);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.article-card__tags {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: var(--space-1);
+}
+
+/* --- Filter rail (homepage sidebar) --- */
+
+.filter-rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.filter-rail__group h4 {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-faint);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+.filter-rail__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.browse-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .browse-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Reading view --- */
+
+.article-reader {
+  display: grid;
+  grid-template-columns: 56px minmax(0, var(--max-reading));
+  gap: var(--space-5);
+  max-width: calc(56px + var(--max-reading) + var(--space-5));
+  margin: 0 auto;
+}
+
+/* The margin rail: a vertical ink line with the article's tags running down
+   it, like marginalia notes in a printed book. */
+.margin-rail {
+  position: sticky;
+  top: calc(var(--space-6) + 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+.margin-rail__line {
+  width: 2px;
+  flex: 1;
+  background: var(--color-line-strong);
+  min-height: 60px;
+}
+
+.margin-rail__tag {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-warm-ink);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .article-reader {
+    grid-template-columns: 1fr;
+  }
+  .margin-rail {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .margin-rail__line {
+    display: none;
+  }
+}
+
+.article-reader__category {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-warm-ink);
+  margin-bottom: var(--space-3);
+}
+
+.article-reader__title {
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-3);
+}
+
+.article-reader__summary {
+  font-size: var(--text-lg);
+  color: var(--color-ink-soft);
+  font-family: var(--font-display);
+  font-style: italic;
+  margin-bottom: var(--space-4);
+}
+
+.article-reader__byline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.article-reader__actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+.article-body {
+  font-size: var(--text-lg);
+  line-height: 1.7;
+}
+
+.article-body p {
+  margin: 0 0 var(--space-5);
+  white-space: pre-wrap;
+}
+
+.article-body figure {
+  margin: var(--space-6) 0;
+}
+
+.article-body img {
+  border-radius: var(--radius-md);
+  width: 100%;
+}
+
+.article-body figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-ink-faint);
+  margin-top: var(--space-2);
+  text-align: center;
+}
+
+/* --- Comments --- */
+
+.comments {
+  margin-top: var(--space-7);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-line);
+}
+
+.comments h2 {
+  font-size: var(--text-xl);
+}
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: var(--space-5) 0;
+}
+
+.comment {
+  padding: var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-paper-raised);
+}
+
+.comment__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.comment__author {
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+.comment__body {
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+  white-space: pre-wrap;
+}
+
+.comment-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.comment-form .field:last-of-type,
+.comment-form .comment-form__content {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 520px) {
+  .comment-form {
+    grid-template-columns: 1fr;
+  }
+}
