@@ -29,11 +29,15 @@
   --spine-4: #b14328;
   --spine-5: #1c8a8a;
 
-  /* --- Type --- */
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  /* --- Type ---
+     Prepended 'Vazirmatn' (or your preferred Persian web font like 'Shabnam' or 'IRANSans')
+     to ensure clean, legible cursive rendering before falling back to system Latin text. */
+  --font-display: 'Vazirmatn', 'Fraunces', Georgia, serif;
+  --font-body: 'Vazirmatn', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Vazirmatn UI Code', 'IBM Plex Mono', ui-monospace, monospace;
 
+  /* Persian glyphs often appear slightly smaller visually than Latin glyphs.
+     If typography feels too compressed, scale these up by ~5-10%. */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;

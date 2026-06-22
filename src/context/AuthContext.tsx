@@ -26,8 +26,8 @@ async function loadUserFromToken(accessToken: string): Promise<UserDto | null> {
     // the UI still reflects "you're logged in".
     return {
       id: userId,
-      username: username ?? 'You',
-      fullName: username ?? 'You',
+      username: username ?? 'کاربر نامشخص',
+      fullName: username ?? 'کاربر نامشخص',
       email: null,
       phoneNumber: null,
     }

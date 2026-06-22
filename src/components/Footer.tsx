@@ -1,10 +1,10 @@
 export function Footer() {
-  return (
-    <footer className="footer">
-      <div className="container footer__row">
-        <span>Marginalia — a simple place to write and read.</span>
-        <span>Built on the WebAPI v1 article service.</span>
-      </div>
-    </footer>
-  )
+    return (
+        <footer className="footer">
+            <div className="container footer__row">
+                <span>مارجینالیا — فضایی ساده برای نوشتن و خواندن.</span>
+                <span>ساخته‌شده بر پایه سرویس مقاله WebAPI v1.</span>
+            </div>
+        </footer>
+    )
 }

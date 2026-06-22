@@ -23,10 +23,10 @@ export function TagsAdminPage() {
   const load = useCallback(() => {
     setIsLoading(true)
     tagApi
-      .search({ pageNumber: 1, pageSize: 100 })
-      .then((r) => setTags(r.data ?? []))
-      .catch((err) => showToast(getApiErrorMessage(err, 'Could not load tags.'), 'error'))
-      .finally(() => setIsLoading(false))
+        .search({ pageNumber: 1, pageSize: 100 })
+        .then((r) => setTags(r.data ?? []))
+        .catch((err) => showToast(getApiErrorMessage(err), 'error'))
+        .finally(() => setIsLoading(false))
   }, [showToast])
 
   useEffect(() => { load() }, [load])
@@ -38,10 +38,10 @@ export function TagsAdminPage() {
     try {
       await tagApi.create({ name: name.trim() })
       setName('')
-      showToast('Tag created.', 'success')
+      showToast('برچسب ایجاد شد.', 'success')
       load()
     } catch (err) {
-      showToast(getApiErrorMessage(err, 'Could not create that tag.'), 'error')
+      showToast(getApiErrorMessage(err), 'error')
     } finally {
       setIsCreating(false)
     }
@@ -52,9 +52,9 @@ export function TagsAdminPage() {
     try {
       await tagApi.remove(id)
       setTags((prev) => prev.filter((t) => t.id !== id))
-      showToast('Tag deleted.', 'success')
+      showToast('برچسب حذف شد.', 'success')
     } catch (err) {
-      showToast(getApiErrorMessage(err, 'Could not delete that tag.'), 'error')
+      showToast(getApiErrorMessage(err), 'error')
     } finally {
       setIsDeleting(false)
       setPendingDeleteId(null)
@@ -62,73 +62,73 @@ export function TagsAdminPage() {
   }
 
   return (
-    <div className="page page--narrow">
-      <div className="container">
-        <div className="page-header">
-          <div>
-            <h1>Tags</h1>
-            <p>Articles can carry as many tags as make sense.</p>
+      <div className="page page--narrow">
+        <div className="container">
+          <div className="page-header">
+            <div>
+              <h1>برچسب‌ها</h1>
+              <p>مقالات می‌توانند هر تعداد برچسب مرتبط داشته باشند.</p>
+            </div>
           </div>
-        </div>
 
-        {isAuthenticated ? (
-          <form
-            className="card card--padded"
-            onSubmit={handleCreate}
-            style={{ display: 'flex', gap: 'var(--space-3)', marginBottom: 'var(--space-5)' }}
-          >
-            <input
-              className="input"
-              placeholder="New tag name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <button className="btn btn--primary" type="submit" disabled={isCreating}>
-              {isCreating ? 'Adding…' : 'Add'}
-            </button>
-          </form>
-        ) : (
-          <div className="alert alert--info" style={{ marginBottom: 'var(--space-5)' }}>
-            <Link to="/login">Log in</Link> to add or remove tags.
-          </div>
-        )}
+          {isAuthenticated ? (
+              <form
+                  className="card card--padded"
+                  onSubmit={handleCreate}
+                  style={{ display: 'flex', gap: 'var(--space-3)', marginBottom: 'var(--space-5)' }}
+              >
+                <input
+                    className="input"
+                    placeholder="نام برچسب جدید"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+                <button className="btn btn--primary" type="submit" disabled={isCreating}>
+                  {isCreating ? 'در حال افزودن…' : 'افزودن'}
+                </button>
+              </form>
+          ) : (
+              <div className="alert alert--info" style={{ marginBottom: 'var(--space-5)' }}>
+                <Link to="/login">وارد شوید</Link> تا بتوانید برچسب اضافه یا حذف کنید.
+              </div>
+          )}
 
-        {isLoading ? (
-          <Spinner label="Loading tags" />
-        ) : tags.length === 0 ? (
-          <EmptyState title="No tags yet" description="Tags you add will show up here." />
-        ) : (
-          <div className="filter-rail__chips">
-            {tags.map((tag) => (
-              <span key={tag.id} className="chip" style={{ paddingRight: isAuthenticated ? '0.3rem' : undefined }}>
+          {isLoading ? (
+              <Spinner label="در حال بارگذاری برچسب‌ها" />
+          ) : tags.length === 0 ? (
+              <EmptyState title="هنوز برچسبی وجود ندارد" description="برچسب‌هایی که اضافه کنید اینجا نمایش داده می‌شوند." />
+          ) : (
+              <div className="filter-rail__chips">
+                {tags.map((tag) => (
+                    <span key={tag.id} className="chip" style={{ paddingRight: isAuthenticated ? '0.3rem' : undefined }}>
                 <Link to={`/?tag=${tag.id}`} style={{ color: 'inherit' }}>
                   #{tag.name}
                 </Link>
-                {isAuthenticated && (
-                  <button
-                    className="chip--remove"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}
-                    onClick={() => setPendingDeleteId(tag.id)}
-                    aria-label={`Delete tag ${tag.name}`}
-                  >
-                    ×
-                  </button>
-                )}
+                      {isAuthenticated && (
+                          <button
+                              className="chip--remove"
+                              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}
+                              onClick={() => setPendingDeleteId(tag.id)}
+                              aria-label={`حذف برچسب ${tag.name}`}
+                          >
+                            ×
+                          </button>
+                      )}
               </span>
-            ))}
-          </div>
+                ))}
+              </div>
+          )}
+        </div>
+
+        {pendingDeleteId && (
+            <ConfirmDialog
+                title="حذف این برچسب؟"
+                description="این برچسب از تمام مقالاتی که از آن استفاده می‌کنند حذف خواهد شد."
+                isBusy={isDeleting}
+                onCancel={() => setPendingDeleteId(null)}
+                onConfirm={() => handleDelete(pendingDeleteId)}
+            />
         )}
       </div>
-
-      {pendingDeleteId && (
-        <ConfirmDialog
-          title="Delete this tag?"
-          description="It will be removed from any articles using it, depending on how your backend handles this."
-          isBusy={isDeleting}
-          onCancel={() => setPendingDeleteId(null)}
-          onConfirm={() => handleDelete(pendingDeleteId)}
-        />
-      )}
-    </div>
   )
 }

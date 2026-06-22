@@ -22,8 +22,8 @@
   box-shadow: var(--shadow-raised);
 }
 
-/* The "spine" — a colored bar coded to the article's category, like a
-   library shelf. This is the app's one recurring signature element. */
+/* The "spine" — In RTL Flexbox, this automatically flips gracefully
+   to the right edge of the card. */
 .article-card__spine {
   width: 6px;
   flex-shrink: 0;
@@ -42,7 +42,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0; /* Removed for Persian text integrity */
   color: var(--color-ink-faint);
 }
 
@@ -88,7 +88,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0; /* Removed for Persian text integrity */
   color: var(--color-ink-faint);
   font-weight: 600;
   margin-bottom: var(--space-3);
@@ -102,7 +102,7 @@
 
 .browse-layout {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 200px 1fr; /* In RTL, the 200px rail renders on the right side */
   gap: var(--space-6);
   align-items: start;
 }
@@ -117,14 +117,13 @@
 
 .article-reader {
   display: grid;
-  grid-template-columns: 56px minmax(0, var(--max-reading));
+  grid-template-columns: 56px minmax(0, var(--max-reading)); /* In RTL, the margin-rail shifts to the right side */
   gap: var(--space-5);
   max-width: calc(56px + var(--max-reading) + var(--space-5));
   margin: 0 auto;
 }
 
-/* The margin rail: a vertical ink line with the article's tags running down
-   it, like marginalia notes in a printed book. */
+/* The margin rail: A vertical ink line on the right side of the layout in RTL */
 .margin-rail {
   position: sticky;
   top: calc(var(--space-6) + 56px);
@@ -148,7 +147,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--color-warm-ink);
-  letter-spacing: 0.04em;
+  letter-spacing: 0; /* Removed for Persian text integrity */
   white-space: nowrap;
 }
 
@@ -170,7 +169,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0; /* Removed for Persian text integrity */
   color: var(--color-warm-ink);
   margin-bottom: var(--space-3);
 }
@@ -184,7 +183,7 @@
   font-size: var(--text-lg);
   color: var(--color-ink-soft);
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal; /* Changed from italic to normal for Persian aesthetics */
   margin-bottom: var(--space-4);
 }
 
@@ -200,7 +199,7 @@
 .article-reader__actions {
   display: flex;
   gap: var(--space-2);
-  margin-left: auto;
+  margin-right: auto; /* Changed from margin-left to push elements to the left side in RTL */
 }
 
 .article-body {

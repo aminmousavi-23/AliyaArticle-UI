@@ -23,10 +23,10 @@ export function CategoriesAdminPage() {
   const load = useCallback(() => {
     setIsLoading(true)
     categoryApi
-      .search({ pageNumber: 1, pageSize: 100 })
-      .then((r) => setCategories(r.data ?? []))
-      .catch((err) => showToast(getApiErrorMessage(err, 'Could not load categories.'), 'error'))
-      .finally(() => setIsLoading(false))
+        .search({ pageNumber: 1, pageSize: 100 })
+        .then((r) => setCategories(r.data ?? []))
+        .catch((err) => showToast(getApiErrorMessage(err), 'error'))
+        .finally(() => setIsLoading(false))
   }, [showToast])
 
   useEffect(() => { load() }, [load])
@@ -38,10 +38,10 @@ export function CategoriesAdminPage() {
     try {
       await categoryApi.create({ name: name.trim() })
       setName('')
-      showToast('Category created.', 'success')
+      showToast('دسته‌بندی ایجاد شد.', 'success')
       load()
     } catch (err) {
-      showToast(getApiErrorMessage(err, 'Could not create that category.'), 'error')
+      showToast(getApiErrorMessage(err), 'error')
     } finally {
       setIsCreating(false)
     }
@@ -52,9 +52,9 @@ export function CategoriesAdminPage() {
     try {
       await categoryApi.remove(id)
       setCategories((prev) => prev.filter((c) => c.id !== id))
-      showToast('Category deleted.', 'success')
+      showToast('دسته‌بندی حذف شد.', 'success')
     } catch (err) {
-      showToast(getApiErrorMessage(err, 'Could not delete that category.'), 'error')
+      showToast(getApiErrorMessage(err), 'error')
     } finally {
       setIsDeleting(false)
       setPendingDeleteId(null)
@@ -62,75 +62,75 @@ export function CategoriesAdminPage() {
   }
 
   return (
-    <div className="page page--narrow">
-      <div className="container">
-        <div className="page-header">
-          <div>
-            <h1>Categories</h1>
-            <p>Every article belongs to one category.</p>
+      <div className="page page--narrow">
+        <div className="container">
+          <div className="page-header">
+            <div>
+              <h1>دسته‌بندی‌ها</h1>
+              <p>هر مقاله به یک دسته‌بندی تعلق دارد.</p>
+            </div>
           </div>
+
+          {isAuthenticated ? (
+              <form
+                  className="card card--padded"
+                  onSubmit={handleCreate}
+                  style={{ display: 'flex', gap: 'var(--space-3)', marginBottom: 'var(--space-5)' }}
+              >
+                <input
+                    className="input"
+                    placeholder="نام دسته‌بندی جدید"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+                <button className="btn btn--primary" type="submit" disabled={isCreating}>
+                  {isCreating ? 'در حال افزودن…' : 'افزودن'}
+                </button>
+              </form>
+          ) : (
+              <div className="alert alert--info" style={{ marginBottom: 'var(--space-5)' }}>
+                <Link to="/login">وارد شوید</Link> تا بتوانید دسته‌بندی اضافه یا حذف کنید.
+              </div>
+          )}
+
+          {isLoading ? (
+              <Spinner label="در حال بارگذاری دسته‌بندی‌ها" />
+          ) : categories.length === 0 ? (
+              <EmptyState title="هنوز دسته‌بندی‌ای وجود ندارد" description="دسته‌بندی‌هایی که اضافه کنید اینجا نمایش داده می‌شوند." />
+          ) : (
+              <ul className="card">
+                {categories.map((category, index) => (
+                    <li
+                        key={category.id}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: 'var(--space-4) var(--space-5)',
+                          borderTop: index === 0 ? 'none' : '1px solid var(--color-line)',
+                        }}
+                    >
+                      <Link to={`/?category=${category.id}`}>{category.name}</Link>
+                      {isAuthenticated && (
+                          <button className="btn btn--danger btn--sm" onClick={() => setPendingDeleteId(category.id)}>
+                            حذف
+                          </button>
+                      )}
+                    </li>
+                ))}
+              </ul>
+          )}
         </div>
 
-        {isAuthenticated ? (
-          <form
-            className="card card--padded"
-            onSubmit={handleCreate}
-            style={{ display: 'flex', gap: 'var(--space-3)', marginBottom: 'var(--space-5)' }}
-          >
-            <input
-              className="input"
-              placeholder="New category name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+        {pendingDeleteId && (
+            <ConfirmDialog
+                title="حذف این دسته‌بندی؟"
+                description="مقالاتی که از این دسته‌بندی استفاده می‌کنند ممکن است تحت تأثیر قرار بگیرند."
+                isBusy={isDeleting}
+                onCancel={() => setPendingDeleteId(null)}
+                onConfirm={() => handleDelete(pendingDeleteId)}
             />
-            <button className="btn btn--primary" type="submit" disabled={isCreating}>
-              {isCreating ? 'Adding…' : 'Add'}
-            </button>
-          </form>
-        ) : (
-          <div className="alert alert--info" style={{ marginBottom: 'var(--space-5)' }}>
-            <Link to="/login">Log in</Link> to add or remove categories.
-          </div>
-        )}
-
-        {isLoading ? (
-          <Spinner label="Loading categories" />
-        ) : categories.length === 0 ? (
-          <EmptyState title="No categories yet" description="Categories you add will show up here." />
-        ) : (
-          <ul className="card">
-            {categories.map((category, index) => (
-              <li
-                key={category.id}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: 'var(--space-4) var(--space-5)',
-                  borderTop: index === 0 ? 'none' : '1px solid var(--color-line)',
-                }}
-              >
-                <Link to={`/?category=${category.id}`}>{category.name}</Link>
-                {isAuthenticated && (
-                  <button className="btn btn--danger btn--sm" onClick={() => setPendingDeleteId(category.id)}>
-                    Delete
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
         )}
       </div>
-
-      {pendingDeleteId && (
-        <ConfirmDialog
-          title="Delete this category?"
-          description="Articles using it may be affected, depending on how your backend handles this."
-          isBusy={isDeleting}
-          onCancel={() => setPendingDeleteId(null)}
-          onConfirm={() => handleDelete(pendingDeleteId)}
-        />
-      )}
-    </div>
   )
 }

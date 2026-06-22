@@ -1,5 +1,6 @@
 .editor-layout {
   display: grid;
+  /* In RTL, the main editor area will be on the right, and the 260px sidebar will sit on the left */
   grid-template-columns: minmax(0, 1fr) 260px;
   gap: var(--space-6);
   align-items: start;
@@ -30,7 +31,7 @@
 
 .editor-summary-input {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal; /* Changed from italic to normal to suit Persian typography style */
   font-size: var(--text-lg);
   border: none;
   background: transparent;
@@ -39,6 +40,7 @@
   padding: 0;
   color: var(--color-ink-soft);
   margin-bottom: var(--space-5);
+  line-height: 1.6;
 }
 .editor-summary-input:focus {
   outline: none;
@@ -80,12 +82,12 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0; /* Changed from 0.05em to 0; letter-spacing breaks cursive Persian script connections */
   color: var(--color-ink-faint);
 }
 
 .block__spacer {
-  flex: 1;
+  flex: 1; /* Works natively to push items across the line in RTL flex containers */
 }
 
 .block__text {
@@ -94,7 +96,7 @@
   resize: vertical;
   min-height: 110px;
   font-size: var(--text-base);
-  line-height: 1.6;
+  line-height: 1.65; /* Slightly adjusted upward for comfortable Persian readability */
   padding: 0;
   background: transparent;
   font-family: var(--font-body);

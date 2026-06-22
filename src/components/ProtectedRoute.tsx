@@ -6,7 +6,7 @@ export function ProtectedRoute() {
   const { isAuthenticated, isLoading } = useAuth()
   const location = useLocation()
 
-  if (isLoading) return <Spinner label="Checking your session" />
+  if (isLoading) return <Spinner label="در حال بررسی نشست شما..." />
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace state={{ from: location.pathname }} />

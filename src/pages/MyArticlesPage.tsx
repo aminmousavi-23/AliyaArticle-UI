@@ -24,19 +24,19 @@ export function MyArticlesPage() {
     if (!user) return
     setIsLoading(true)
     articleApi
-      .search({
-        pageNumber: 1,
-        pageSize: 100,
-        filter: {
-          isAnd: true,
-          orderBy: 'createdAt',
-          isAscending: false,
-          items: [{ field: 'authorId', operation: FilterOperation.Equals, value: user.id }],
-        },
-      })
-      .then((r) => setArticles(r.data ?? []))
-      .catch((err) => showToast(getApiErrorMessage(err, 'Could not load your articles.'), 'error'))
-      .finally(() => setIsLoading(false))
+        .search({
+          pageNumber: 1,
+          pageSize: 100,
+          filter: {
+            isAnd: true,
+            orderBy: 'createdAt',
+            isAscending: false,
+            items: [{ field: 'authorId', operation: FilterOperation.Equals, value: user.id }],
+          },
+        })
+        .then((r) => setArticles(r.data ?? []))
+        .catch((err) => showToast(getApiErrorMessage(err), 'error'))
+        .finally(() => setIsLoading(false))
   }, [user, showToast])
 
   useEffect(() => { load() }, [load])
@@ -45,10 +45,10 @@ export function MyArticlesPage() {
     setPublishingId(id)
     try {
       await articleApi.publish(id)
-      showToast('Article published.', 'success')
+      showToast('مقاله منتشر شد.', 'success')
       load()
     } catch (err) {
-      showToast(getApiErrorMessage(err, 'Could not publish this article.'), 'error')
+      showToast(getApiErrorMessage(err), 'error')
     } finally {
       setPublishingId(null)
     }
@@ -59,9 +59,9 @@ export function MyArticlesPage() {
     try {
       await articleApi.remove(id)
       setArticles((prev) => prev.filter((a) => a.id !== id))
-      showToast('Article deleted.', 'success')
+      showToast('مقاله حذف شد.', 'success')
     } catch (err) {
-      showToast(getApiErrorMessage(err, 'Could not delete this article.'), 'error')
+      showToast(getApiErrorMessage(err), 'error')
     } finally {
       setIsDeleting(false)
       setPendingDeleteId(null)
@@ -69,78 +69,78 @@ export function MyArticlesPage() {
   }
 
   return (
-    <div className="page">
-      <div className="container">
-        <div className="page-header">
-          <div>
-            <h1>My articles</h1>
-            <p>Drafts and published pieces you've written.</p>
+      <div className="page">
+        <div className="container">
+          <div className="page-header">
+            <div>
+              <h1>مقالات من</h1>
+              <p>پیش‌نویس‌ها و مقالات منتشرشده‌ای که نوشته‌اید.</p>
+            </div>
+            <Link className="btn btn--accent" to="/write">+ مقاله جدید</Link>
           </div>
-          <Link className="btn btn--accent" to="/write">+ New article</Link>
+
+          {isLoading ? (
+              <Spinner label="در حال بارگذاری مقالات شما" />
+          ) : articles.length === 0 ? (
+              <EmptyState
+                  title="هنوز چیزی اینجا نیست"
+                  description="اولین مقاله‌تان را بنویسید."
+                  action={<Link className="btn btn--primary" to="/write">نوشتن مقاله</Link>}
+              />
+          ) : (
+              <div className="card">
+                {articles.map((article, index) => (
+                    <div
+                        key={article.id}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 'var(--space-4)',
+                          padding: 'var(--space-4) var(--space-5)',
+                          borderTop: index === 0 ? 'none' : '1px solid var(--color-line)',
+                        }}
+                    >
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <Link to={`/article/${article.id}`} style={{ color: 'var(--color-ink)', fontWeight: 600 }}>
+                          {article.title}
+                        </Link>
+                        <div className="meta" style={{ marginTop: 'var(--space-1)' }}>
+                          <span>{article.category.name}</span>
+                          <span className="meta__dot" />
+                          <span>{formatDate(article.createdAt)}</span>
+                          <span className="meta__dot" />
+                          <span className={`badge ${article.isPublished ? 'badge--published' : 'badge--draft'}`}>
+                      {article.isPublished ? 'منتشرشده' : 'پیش‌نویس'}
+                    </span>
+                        </div>
+                      </div>
+                      {!article.isPublished && (
+                          <button
+                              className="btn btn--ghost btn--sm"
+                              onClick={() => handlePublish(article.id)}
+                              disabled={publishingId === article.id}
+                          >
+                            {publishingId === article.id ? 'در حال انتشار…' : 'انتشار'}
+                          </button>
+                      )}
+                      <button className="btn btn--danger btn--sm" onClick={() => setPendingDeleteId(article.id)}>
+                        حذف
+                      </button>
+                    </div>
+                ))}
+              </div>
+          )}
         </div>
 
-        {isLoading ? (
-          <Spinner label="Loading your articles" />
-        ) : articles.length === 0 ? (
-          <EmptyState
-            title="Nothing here yet"
-            description="Start writing your first article."
-            action={<Link className="btn btn--primary" to="/write">Write an article</Link>}
-          />
-        ) : (
-          <div className="card">
-            {articles.map((article, index) => (
-              <div
-                key={article.id}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'var(--space-4)',
-                  padding: 'var(--space-4) var(--space-5)',
-                  borderTop: index === 0 ? 'none' : '1px solid var(--color-line)',
-                }}
-              >
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <Link to={`/article/${article.id}`} style={{ color: 'var(--color-ink)', fontWeight: 600 }}>
-                    {article.title}
-                  </Link>
-                  <div className="meta" style={{ marginTop: 'var(--space-1)' }}>
-                    <span>{article.category.name}</span>
-                    <span className="meta__dot" />
-                    <span>{formatDate(article.createdAt)}</span>
-                    <span className="meta__dot" />
-                    <span className={`badge ${article.isPublished ? 'badge--published' : 'badge--draft'}`}>
-                      {article.isPublished ? 'Published' : 'Draft'}
-                    </span>
-                  </div>
-                </div>
-                {!article.isPublished && (
-                  <button
-                    className="btn btn--ghost btn--sm"
-                    onClick={() => handlePublish(article.id)}
-                    disabled={publishingId === article.id}
-                  >
-                    {publishingId === article.id ? 'Publishing…' : 'Publish'}
-                  </button>
-                )}
-                <button className="btn btn--danger btn--sm" onClick={() => setPendingDeleteId(article.id)}>
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
+        {pendingDeleteId && (
+            <ConfirmDialog
+                title="حذف این مقاله؟"
+                description="این عمل مقاله را به همراه تمام دیدگاه‌هایش به‌طور دائمی حذف می‌کند."
+                isBusy={isDeleting}
+                onCancel={() => setPendingDeleteId(null)}
+                onConfirm={() => handleDelete(pendingDeleteId)}
+            />
         )}
       </div>
-
-      {pendingDeleteId && (
-        <ConfirmDialog
-          title="Delete this article?"
-          description="This removes it permanently, including its comments."
-          isBusy={isDeleting}
-          onCancel={() => setPendingDeleteId(null)}
-          onConfirm={() => handleDelete(pendingDeleteId)}
-        />
-      )}
-    </div>
   )
 }

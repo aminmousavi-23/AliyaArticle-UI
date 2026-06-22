@@ -33,7 +33,7 @@
   align-items: center;
   gap: var(--space-2);
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal; /* Changed from italic to normal to fit standard Persian logo typography */
   font-weight: 600;
   font-size: var(--text-xl);
   color: var(--color-ink);
@@ -81,7 +81,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  margin-left: auto;
+  margin-right: auto; /* Changed from margin-left to push the profile controls cleanly to the left edge in RTL */
+  margin-left: 0;
   flex-shrink: 0;
 }
 

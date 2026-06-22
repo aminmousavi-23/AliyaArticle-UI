@@ -10,11 +10,12 @@ html {
 
 body {
   margin: 0;
+  direction: rtl; /* Sets the global text flow and layout rules from right to left */
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-body);
+  font-family: var(--font-body); /* Ensure your Persian web font (e.g., Vazirmatn, IRANSans) is assigned to this variable */
   font-size: var(--text-base);
-  line-height: 1.55;
+  line-height: 1.6; /* Slightly increased from 1.55 for better readability of Persian glyphs */
   -webkit-font-smoothing: antialiased;
 }
 
@@ -24,9 +25,9 @@ h3,
 h4 {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.18;
+  line-height: 1.25; /* Slightly increased for taller Persian ascenders/descenders */
   margin: 0 0 var(--space-3);
-  letter-spacing: -0.01em;
+  letter-spacing: 0; /* Changed from -0.01em to 0; letter-spacing breaks cursive Persian script connections */
 }
 
 p {

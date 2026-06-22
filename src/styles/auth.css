@@ -1,5 +1,8 @@
+/* --- Authentication card --- */
+
 .auth-card {
   max-width: 420px;
+  /* margins with 'auto' on both sides work perfectly in both LTR and RTL */
   margin: var(--space-6) auto 0;
 }
 
@@ -20,13 +23,20 @@
   border-top: 1px solid var(--color-line);
   font-size: var(--text-sm);
   color: var(--color-ink-soft);
-  text-align: center;
+  text-align: center; /* Centered text remains unaffected by direction changes */
 }
+
+/* --- Field row --- */
 
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-3);
+  /* 
+    Note: Under a parent with `direction: rtl`, CSS Grid automatically 
+    reverses the flow of columns, placing the first form element on the right 
+    and the second on the left without needing any physical property overrides!
+  */
 }
 
 @media (max-width: 480px) {

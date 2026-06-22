@@ -25,13 +25,13 @@ export function WriteArticlePage() {
 
   useEffect(() => {
     categoryApi
-      .search({ pageNumber: 1, pageSize: 100 })
-      .then((r) => setCategories(r.data ?? []))
-      .catch(() => setCategories([]))
+        .search({ pageNumber: 1, pageSize: 100 })
+        .then((r) => setCategories(r.data ?? []))
+        .catch(() => setCategories([]))
     tagApi
-      .search({ pageNumber: 1, pageSize: 100 })
-      .then((r) => setTags(r.data ?? []))
-      .catch(() => setTags([]))
+        .search({ pageNumber: 1, pageSize: 100 })
+        .then((r) => setTags(r.data ?? []))
+        .catch(() => setTags([]))
   }, [])
 
   function toggleTag(id: string) {
@@ -39,13 +39,13 @@ export function WriteArticlePage() {
   }
 
   function validate(): string | null {
-    if (!title.trim()) return 'Give your article a title.'
-    if (!summary.trim()) return 'Add a short summary.'
-    if (!categoryId) return 'Choose a category.'
+    if (!title.trim()) return 'عنوان مقاله را وارد کنید.'
+    if (!summary.trim()) return 'یک خلاصه کوتاه اضافه کنید.'
+    if (!categoryId) return 'یک دسته‌بندی انتخاب کنید.'
     const hasContent = blocks.some(
-      (b) => (b.type === BlockType.Text && b.text.trim()) || (b.type === BlockType.Image && b.base64File),
+        (b) => (b.type === BlockType.Text && b.text.trim()) || (b.type === BlockType.Image && b.base64File),
     )
-    if (!hasContent) return 'Add at least one block of content.'
+    if (!hasContent) return 'حداقل یک بلوک محتوا اضافه کنید.'
     return null
   }
 
@@ -59,13 +59,13 @@ export function WriteArticlePage() {
     setIsSaving(publishAfter ? 'publish' : 'draft')
     try {
       const payloadBlocks: CreateArticleBlockDto[] = blocks
-        .filter((b) => (b.type === BlockType.Text && b.text.trim()) || (b.type === BlockType.Image && b.base64File))
-        .map((b, index) => ({
-          type: b.type,
-          text: b.type === BlockType.Text ? b.text.trim() : b.text.trim() || null,
-          base64File: b.type === BlockType.Image ? b.base64File : null,
-          order: index,
-        }))
+          .filter((b) => (b.type === BlockType.Text && b.text.trim()) || (b.type === BlockType.Image && b.base64File))
+          .map((b, index) => ({
+            type: b.type,
+            text: b.type === BlockType.Text ? b.text.trim() : b.text.trim() || null,
+            base64File: b.type === BlockType.Image ? b.base64File : null,
+            order: index,
+          }))
 
       const newId = await articleApi.create({
         title: title.trim(),
@@ -79,86 +79,86 @@ export function WriteArticlePage() {
         await articleApi.publish(newId)
       }
 
-      showToast(publishAfter ? 'Article published.' : 'Draft saved.', 'success')
+      showToast(publishAfter ? 'مقاله منتشر شد.' : 'پیش‌نویس ذخیره شد.', 'success')
       navigate(newId ? `/article/${newId}` : '/my-articles')
     } catch (err) {
-      showToast(getApiErrorMessage(err, 'Could not save your article.'), 'error')
+      showToast(getApiErrorMessage(err), 'error')
     } finally {
       setIsSaving(null)
     }
   }
 
   return (
-    <div className="page">
-      <div className="container">
-        <div className="editor-layout">
-          <div>
-            <input
-              className="editor-title-input"
-              placeholder="Article title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <textarea
-              className="editor-summary-input"
-              placeholder="One or two sentences that sum up the article…"
-              value={summary}
-              onChange={(e) => setSummary(e.target.value)}
-              rows={2}
-            />
-            <hr className="editor-divider" />
-            <BlockEditor blocks={blocks} onChange={setBlocks} />
-          </div>
-
-          <aside className="editor-sidebar">
-            <div className="card card--padded">
-              <div className="field">
-                <label className="field__label" htmlFor="category">
-                  Category
-                </label>
-                <select id="category" className="select" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-                  <option value="">Choose one…</option>
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-                <span className="field__hint">
-                  Don't see the right one? <a href="/categories">Manage categories</a>.
-                </span>
-              </div>
-
-              <div className="field">
-                <span className="field__label">Tags</span>
-                <div className="tag-picker">
-                  {tags.length === 0 && <span className="field__hint">No tags yet.</span>}
-                  {tags.map((t) => (
-                    <button
-                      type="button"
-                      key={t.id}
-                      className={`chip chip--button${selectedTagIds.includes(t.id) ? ' chip--selected' : ''}`}
-                      onClick={() => toggleTag(t.id)}
-                    >
-                      #{t.name}
-                    </button>
-                  ))}
-                </div>
-                <span className="field__hint">
-                  Need a new tag? <a href="/tags">Manage tags</a>.
-                </span>
-              </div>
-
-              <button className="btn btn--ghost btn--block" onClick={() => handleSave(false)} disabled={isSaving !== null}>
-                {isSaving === 'draft' ? 'Saving…' : 'Save as draft'}
-              </button>
-              <button className="btn btn--accent btn--block" onClick={() => handleSave(true)} disabled={isSaving !== null}>
-                {isSaving === 'publish' ? 'Publishing…' : 'Publish'}
-              </button>
+      <div className="page">
+        <div className="container">
+          <div className="editor-layout">
+            <div>
+              <input
+                  className="editor-title-input"
+                  placeholder="عنوان مقاله"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+              />
+              <textarea
+                  className="editor-summary-input"
+                  placeholder="یک یا دو جمله که مقاله را خلاصه می‌کند..."
+                  value={summary}
+                  onChange={(e) => setSummary(e.target.value)}
+                  rows={2}
+              />
+              <hr className="editor-divider" />
+              <BlockEditor blocks={blocks} onChange={setBlocks} />
             </div>
-          </aside>
+
+            <aside className="editor-sidebar">
+              <div className="card card--padded">
+                <div className="field">
+                  <label className="field__label" htmlFor="category">
+                    دسته‌بندی
+                  </label>
+                  <select id="category" className="select" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+                    <option value="">انتخاب کنید...</option>
+                    {categories.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.name}
+                        </option>
+                    ))}
+                  </select>
+                  <span className="field__hint">
+                  دسته‌بندی مناسب را پیدا نمی‌کنید؟ <a href="/categories">مدیریت دسته‌بندی‌ها</a>.
+                </span>
+                </div>
+
+                <div className="field">
+                  <span className="field__label">برچسب‌ها</span>
+                  <div className="tag-picker">
+                    {tags.length === 0 && <span className="field__hint">هنوز برچسبی وجود ندارد.</span>}
+                    {tags.map((t) => (
+                        <button
+                            type="button"
+                            key={t.id}
+                            className={`chip chip--button${selectedTagIds.includes(t.id) ? ' chip--selected' : ''}`}
+                            onClick={() => toggleTag(t.id)}
+                        >
+                          #{t.name}
+                        </button>
+                    ))}
+                  </div>
+                  <span className="field__hint">
+                  برچسب جدید نیاز دارید؟ <a href="/tags">مدیریت برچسب‌ها</a>.
+                </span>
+                </div>
+
+                <button className="btn btn--ghost btn--block" onClick={() => handleSave(false)} disabled={isSaving !== null}>
+                  {isSaving === 'draft' ? 'در حال ذخیره…' : 'ذخیره به عنوان پیش‌نویس'}
+                </button>
+                <button className="btn btn--accent btn--block" onClick={() => handleSave(true)} disabled={isSaving !== null}>
+                  {isSaving === 'publish' ? 'در حال انتشار…' : 'انتشار'}
+                </button>
+              </div>
+            </aside>
+          </div>
         </div>
       </div>
-    </div>
   )
 }

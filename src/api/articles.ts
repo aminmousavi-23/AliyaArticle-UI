@@ -32,7 +32,7 @@ export const articleApi = {
 
   async getById(id: string): Promise<ArticleDto> {
     const { data } = await apiClient.get<BaseResponse<ArticleDto>>(`/api/article/${id}`)
-    if (!data.data) throw new Error(data.message ?? 'Article not found.')
+    if (!data.data) throw new Error(data.message ?? 'مقاله یافت نشد.')
     return data.data
   },
 

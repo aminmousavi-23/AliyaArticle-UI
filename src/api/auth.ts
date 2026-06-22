@@ -17,19 +17,19 @@ export const authApi = {
 
   async login(command: LoginUserCommand): Promise<AuthTokensDto> {
     const { data } = await apiClient.post<BaseResponse<AuthTokensDto>>('/api/auth/login', command)
-    if (!data.data) throw new Error(data.message ?? 'Login failed — no token returned.')
+    if (!data.data) throw new Error(data.message ?? 'ورود ناموفق بود — توکنی دریافت نشد.')
     return data.data
   },
 
   async refreshToken(accessToken: string, refreshToken: string): Promise<AuthTokensDto> {
     const { data } = await apiClient.post<BaseResponse<AuthTokensDto>>('/api/auth/refresh-token', { accessToken, refreshToken })
-    if (!data.data) throw new Error(data.message ?? 'Token refresh failed.')
+    if (!data.data) throw new Error(data.message ?? 'تمدید توکن ناموفق بود.')
     return data.data
   },
 
   async getById(id: string): Promise<UserDto> {
     const { data } = await apiClient.get<BaseResponse<UserDto>>(`/api/auth/${id}`)
-    if (!data.data) throw new Error(data.message ?? 'User not found.')
+    if (!data.data) throw new Error(data.message ?? 'کاربر یافت نشد.')
     return data.data
   },
 
