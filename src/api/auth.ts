@@ -6,8 +6,9 @@ import type {
   GetUserPaginatedQuery,
   LoginUserCommand,
   RegisterUserCommand,
+  RefreshTokenCommand,
   UserDto,
-} from '@/types/api'
+} from '@/types/api';
 
 export const authApi = {
   async register(command: RegisterUserCommand) {
@@ -21,8 +22,8 @@ export const authApi = {
     return data.data
   },
 
-  async refreshToken(accessToken: string, refreshToken: string): Promise<AuthTokensDto> {
-    const { data } = await apiClient.post<BaseResponse<AuthTokensDto>>('/api/auth/refresh-token', { accessToken, refreshToken })
+  async refreshToken(command: RefreshTokenCommand): Promise<AuthTokensDto> {
+    const { data } = await apiClient.post<BaseResponse<AuthTokensDto>>('/api/auth/refresh-token', command)
     if (!data.data) throw new Error(data.message ?? 'تمدید توکن ناموفق بود.')
     return data.data
   },
